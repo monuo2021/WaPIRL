@@ -33,6 +33,7 @@ class WM811kProcessor(object):
 
     @staticmethod
     def save_image(arr: np.ndarray, filepath: str = 'image.png', vmin: int = 0, vmax: int = 2):
+        # 这行代码将数组中的数值从原始范围[0, 2]缩放到[0, 255]的范围。
         scaled_arr = (arr / vmax) * 255
         img = Image.fromarray(scaled_arr.astype(np.uint8))
         img.save(filepath, dpi=(500, 500))
@@ -49,7 +50,7 @@ class WM811kProcessor(object):
                 pngfile = os.path.join(root, row['labelString'], f'{i:06}.png')
                 os.makedirs(os.path.dirname(pngfile), exist_ok=True)
                 self.save_image(row['waferMap'], pngfile)
-                pbar.set_description_str(f" {root} - {i:06} ")
+                pbar.set_description(f" {root} - {i:06} ")
                 pbar.update(1)
 
     def write_unlabeled_images(self,
